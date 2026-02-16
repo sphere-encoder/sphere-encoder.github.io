@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    /* global width control */
+    :root {
+      --global-page-width: 1024px;
+    }
+
+    .container.is-max-desktop {
+      max-width: var(--global-page-width) !important;
+    }
+  </style>
+
+  <meta charset="utf-8">
+  <meta name="description" content="Image Generation with a Sphere Encoder">
+  <meta name="keywords" content="SphereEncoder, Diffusion, Generation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="static/sphere/profile.png">
+  <title>Sphere Encoder</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body publication-header">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Image Generation with a Sphere Encoder</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://kaiyuyue.com/">Kaiyu Yue</a><sup style="font-size: 0.7em;">* 1 2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://kmnp.github.io/">Menglin Jia</a><sup style="font-size: 0.7em;">* 1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://sekunde.github.io/">Ji Hou</a><sup style="font-size: 0.7em;">1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.cs.umd.edu/~tomg/">Tom Goldstein</a><sup style="font-size: 0.7em;">2</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors mb-2" style="margin-top: 10px;">
+              <span class="author-block">Meta<sup style="font-size: 0.7em;">1</sup>, University of Maryland<sup
+                  style="font-size: 0.7em;">2</sup></span>
+            </div>
+
+            <span class="is-size-7">*Equal contribution</span>
+
+            <div class="publication-links mt-5">
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (coming soon)</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pt-0">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <video poster="" autoplay playsinline muted loop style="margin-left: -10px;">
+            <source type="video/webm" src="static/sphere/randp_ball_spin_all.webm" />
+          </video>
+
+          <div style="margin-top: -40px; max-width: 80%; margin-left: auto; margin-right: auto;">
+            <p class="is-size-7 has-text-justified has-text-grey mb-5">
+              <i>
+                <strong>Uniformity on the Sphere.</strong>
+                Our Sphere Encoder maps the natural image distribution uniformly onto a global sphere.
+                The decoder then generates an image by decoding a point on the sphere.
+                Shown here for three random classes of CIFAR-10, latents from CIFAR-10 training samples are projected
+                into
+                3D via a random Gaussian matrix and normalized to unit length.
+                The distribution reveals a highly uniform coverage of the sphere within each class, a trend consistent
+                across various datasets, such as ImageNet, Animal-Faces, and
+                Oxford-Flowers.
+                This uniformity is valid for both conditional and unconditional models.
+              </i>
+            </p>
+          </div>
+          <br>
+
+          <div class="content has-text-justified mt-4">
+            <p>
+              We introduce the <strong>Sphere Encoder</strong>, an efficient generative framework capable of producing
+              images in a single forward pass and competing with many-step diffusion models using fewer than five steps.
+              Our approach works by learning an encoder that maps natural images <strong>uniformly onto a spherical
+                latent space</strong>, and a decoder that maps random latent vectors back to the image space. Trained
+              solely through image reconstruction losses, the model generates an image by simply decoding a random point
+              on the sphere. Our architecture naturally supports conditional generation, and looping the encoder/decoder
+              a few times can further enhance image quality. Across several datasets, the sphere encoder approach yields
+              performance competitive with state of the art diffusions, but with a small fraction of the inference cost.
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section has-background-light">
+    <div class="container is-max-desktop">
+      <!-- <div class="columns is-centered has-text-centered mb-5">
+        <h2 class="title is-3 margin-bottom-8">One-step or Few-step Generation</h2>
+      </div>
+      <br> -->
+      <div id="results-carousel" class="carousel results-carousel">
+
+        <div class="item">
+          <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+            style="height: 100%;">
+            <img src="static/teaser/imagenet1.png" alt="4step_imagenet1"
+              style="max-height: auto; width: auto; object-fit: contain;">
+            <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+              ImageNet (256x256, <b>4-step</b> generation)
+            </p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+            style="height: 100%;">
+            <img src="static/teaser/imagenet2.png" alt="4step_imagenet2"
+              style="max-height: auto; width: auto; object-fit: contain;">
+            <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+              ImageNet (256x256, <b>4-step</b> generation)
+            </p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+            style="height: 100%;">
+            <img src="static/teaser/animalfaces.jpg" alt="1step_animalfaces"
+              style="max-height: auto; width: auto; object-fit: contain;">
+            <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+              Animal-Faces (256x256, <b>1-step</b> generation)
+            </p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+            style="height: 100%;">
+            <img src="static/teaser/flowers.jpg" alt="2step_flower"
+              style="max-height: auto; width: auto; object-fit: contain;">
+            <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+              Oxford-Flowers (256x256, <b>2-step</b> generation)
+            </p>
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+            style="height: 100%;">
+            <img src="static/teaser/cifar.jpg" alt="1step_cifar"
+              style="max-height: auto; width: auto; object-fit: contain;">
+            <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+              CIFAR-10 (32x32, <b>1-step</b> generation)
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="columns is-centered mt-5">
+        <div class="column is-four-fifths has-text-centered">
+          <div class="content has-text-centered mt-5">
+            <p>
+              Sphere Encoder, trained entirely from scratch, can generate sharp and high-fidelity images in within 4
+              steps.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <br>
+  <br>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered mb-5">
+        <h2 class="title is-3 margin-bottom-8">Latent Space Spherification</h2>
+      </div>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <img src="static/teaser/method.png" alt="Spherifying latent with noise diagram"
+            style="max-width: 100%; margin-top: 10px;" />
+          <div class="content has-text-justified mt-5">
+            <p>
+              <strong>Spherifying the latent space with noise.</strong>
+              Encoder <b><i>E</i></b> maps image <b><i>x</i></b> to a latent, which <i>f</i> projects to <b><i>v</i></b>
+              on sphere <b><i>S</i></b>.
+              During training, random Gaussian noise &sigma;&middot;<i>e</i> is added to <b><i>v</i></b>, where &sigma;
+              is jittered magnitude.
+              Decoder <b><i>D</i></b> reconstructs the image from the re-projected noisy latent <i>f</i>(<b><i>v</i></b>
+              + &sigma;&middot;<b><i>e</i></b>).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <br>
+  <br>
+  <section class="section has-background-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered mb-5">
+        <h2 class="title is-3 margin-bottom-8">Overcoming the Posterior Hole Problem</h2>
+      </div>
+
+      <div class="columns is-centered" style="margin-top: 10px;">
+        <div class="column is-four-fifths">
+          <div id="results-carousel" class="carousel results-carousel mb-4">
+            <div class="item">
+              <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-space-between"
+                style="height: 100%;">
+                <img src="static/sphere/sphere.jpg" alt="Sphere (Ours) Comparison"
+                  style="max-height: auto; width: auto; object-fit: contain;">
+                <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+                  <b>Sphere (Ours)</b>: High-quality generation from random points on the sphere.
+                </p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-space-between"
+                style="height: 100%;">
+                <img src="static/sphere/flux2.jpg" alt="FLUX.2 Comparison"
+                  style="max-height: auto; width: auto; object-fit: contain;">
+                <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+                  <b><a href="https://huggingface.co/black-forest-labs/FLUX.2-dev">FLUX.2</a></b>
+                </p>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-space-between"
+                style="height: 100%;">
+                <img src="static/sphere/flux1.jpg" alt="FLUX.1 Comparison"
+                  style="max-height: auto; width: auto; object-fit: contain;">
+                <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+                  <b><a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">FLUX.1</a></b>
+                </p>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-space-between"
+                style="height: 100%;">
+                <img src="static/sphere/sd_vae.jpg" alt="SD-VAE Comparison"
+                  style="max-height: auto; width: auto; object-fit: contain;">
+                <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+                  <b><a href="https://huggingface.co/stabilityai/sd-vae-ft-mse">SD-VAE</a></b>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <p class="is-size-7 has-text-centered has-text-grey mb-5">
+            <i>
+              Swipe to compare different models against the "Posterior Hole" problem. <br>
+              Columns show:
+              (1) Input images;
+              (2) Autoencoder reconstructions;
+              (3) Samples from standard Gaussian prior;
+              and (4) Samples from estimated Gaussian posterior on the training set of Animal-Faces.
+            </i>
+          </p>
+
+          <div class="content has-text-justified">
+            <p>
+              Variational Autoencoders (VAEs) face a fundamental trade-off: the <strong>divergence loss</strong>
+              (matching a Gaussian prior) and the <strong>reconstruction loss</strong> are often at odds. Minimizing one
+              typically degrades the other, leading to "posterior holes"—regions in the latent space that do not map to
+              valid images.
+            </p>
+
+            <div class="columns is-vcentered mt-4">
+              <div class="column">
+                <h4 class="title is-5 mb-2">Modern VAEs</h4>
+                <p class="is-size-6">
+                  Attempt to force latents into a <strong>Gaussian distribution</strong>. This creates a conflict where
+                  the learned posterior fails to match the prior, making direct sampling unreliable.
+                </p>
+              </div>
+              <div class="column">
+                <h4 class="title is-5 mb-2">Sphere Encoder</h4>
+                <p class="is-size-6">
+                  Forces latents onto a <strong>uniform spherical manifold</strong>. By spreading embeddings away from
+                  each other on a bounded sphere, we achieve uniformity without sacrificing reconstruction accuracy.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <br>
+  <br>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered mb-5">
+        <h2 class="title is-3 margin-bottom-8">Latent Interpolation</h2>
+      </div>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <img src="static/sphere/interpolate.png" alt="latent interpolation"
+            style="max-width: 100%; margin-bottom: 20px;" />
+          <div class="content has-text-justified">
+            <p> As we move through learned latent space, our model exhibits <strong>fast/sudden transitions</strong>
+              between image classes rather than producing ``hybrid'' images that unrealistically merge properties of
+              difference object types. For example, starting with the bottom-left image of a cheetah, we observe a
+              sudden transition from cheetah to cat as we move vertically, and from cheetah to dog as we move
+              horizontally. The model does not linger in a half-cheetah/half-dog state that is impossible in the
+              training data.
+              These fast-transitions are necessary for a model to reliably convert random samples from the sphere into
+              realistic images, as it makes the probability of observing a hybrid image small. </p>
+            <p>
+              This important property of the sphere encoder differentiates it from other latent models. GANs, for
+              example, tend to exhibit slow transitions, resulting in frequent production of hybrid or distorted
+              objects, e.g., Figure 8 and 9 in <a href="https://arxiv.org/pdf/1809.11096">BigGAN</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <br>
+  <br>
+  <section class="section has-background-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered mb-6">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Image Editing</h2>
+          <div class="content has-text-justified">
+            <p>
+              Sphere encoder enables versatile image editing capabilities across various scenarios, from OOD
+              transformations to composite harmonization. A key benefit of this approach is that the entire
+              editing process is <strong>training-free</strong>, allowing for high-quality manipulation
+              without the need for additional fine-tuning or task-specific optimization.
+            </p>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="columns is-centered has-text-centered mb-4">
+        <h3 class="title is-4">Transforming Out-of-Distribution Images</h3>
+      </div>
+      <div class="columns is-centered mb-6">
+        <div class="column is-four-fifths">
+          <img src="static/sphere/cond_manipulation.jpg" alt="conditional manipulation"
+            style="max-width: 100%; margin-bottom: 20px;" />
+          <div class="content has-text-justified">
+            <p>
+              Given an image far outside of the training distribution, we repeatedly encode and decode an input image,
+              conditioning on different ImageNet classes.
+            </p>
+            <p>
+              We observe that a single step captures the primary object from the input while adapting its texture to
+              match the target class. By increasing the iterations (e.g., 4-step generation), the model further refines
+              the object's texture and key characteristics to align with the target class—all while maintaining the
+              structural integrity of the original image.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="columns is-centered has-text-centered mb-4">
+        <h3 class="title is-4">Transforming Stitched Composites</h3>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <img src="static/sphere/crossover.png" alt="cross over" style="max-width: 100%; margin-bottom: 20px;" />
+          <div class="content has-text-justified">
+            <p>
+              We further demonstrate the model's editing capabilities by manually stitching together two distinct
+              sources, <strong>Image A</strong> and <strong>Image B</strong>. By repeatedly encoding and decoding this
+              stitched composite, the model naturally smooths the boundaries and harmonizes the content.
+            </p>
+            <p>
+              The process forces the manipulated image to converge to a valid point on the learned spherical manifold.
+              Notably, unlike diffusion models (which require noise injection to hallucinate details), our encoder
+              <strong>directly projects</strong> the stitched image into the latent space without adding noise,
+              preserving the semantic integrity of both original images while creating a seamless transition.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <br>
+  <br>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered mb-5">
+        <h2 class="title is-3 margin-bottom-8">Uncurated Generated Images</h2>
+      </div>
+
+      <div class="columns is-centered">
+        <div class="column is-full" style="width: 100%; overflow: hidden;">
+
+          <div id="results-carousel" class="carousel results-carousel">
+
+            <div class="item">
+              <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+                style="height: 100%;">
+                <img src="static/more_examples/animal_2step.jpg" alt="2step_animal"
+                  style="max-height: auto; width: auto; object-fit: contain;">
+                <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+                  Animal-Faces (256x256, <b>2-step</b> generation, without CFG)
+                </p>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+                style="height: 100%;">
+                <img src="static/more_examples/animal_4step.jpg" alt="4step_animal"
+                  style="max-height: auto; width: auto; object-fit: contain;">
+                <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+                  Animal-Faces (256x256, <b>4-step</b> generation, without CFG)
+                </p>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+                style="height: 100%;">
+                <img src="static/more_examples/flower_2step.jpg" alt="2step_flower"
+                  style="max-height: auto; width: auto; object-fit: contain;">
+                <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+                  Oxford-Flowers (256x256, <b>2-step</b> generation, without CFG)
+                </p>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+                style="height: 100%;">
+                <img src="static/more_examples/flower_4step.jpg" alt="4step_flower"
+                  style="max-height: auto; width: auto; object-fit: contain;">
+                <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+                  Oxford-Flowers (256x256, <b>4-step</b> generation, without CFG)
+                </p>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+                style="height: 100%;">
+                <img src="static/more_examples/imagenet1.jpg" alt="4step_imagenet1"
+                  style="max-height: auto; width: auto; object-fit: contain;">
+                <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+                  ImageNet (256x256, <b>4-step</b> generation with CFG=1.4)
+                </p>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+                style="height: 100%;">
+                <img src="static/more_examples/imagenet2.jpg" alt="4step_imagenet2"
+                  style="max-height: auto; width: auto; object-fit: contain;">
+                <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+                  ImageNet (256x256, <b>4-step</b> generation with CFG=1.4)
+                </p>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+                style="height: 100%;">
+                <img src="static/more_examples/imagenet3.jpg" alt="4step_imagenet3"
+                  style="max-height: auto; width: auto; object-fit: contain;">
+                <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+                  ImageNet (256x256, <b>4-step</b> generation with CFG=1.4)
+                </p>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+                style="height: 100%;">
+                <img src="static/more_examples/imagenet4.jpg" alt="4step_imagenet4"
+                  style="max-height: auto; width: auto; object-fit: contain;">
+                <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+                  ImageNet (256x256, <b>4-step</b> generation with CFG=1.4)
+                </p>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+                style="height: 100%;">
+                <img src="static/more_examples/imagenet5.jpg" alt="4step_imagenet5"
+                  style="max-height: auto; width: auto; object-fit: contain;">
+                <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+                  ImageNet (256x256, <b>4-step</b> generation with CFG=1.4)
+                </p>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+                style="height: 100%;">
+                <img src="static/more_examples/imagenet6.jpg" alt="4step_imagenet6"
+                  style="max-height: auto; width: auto; object-fit: contain;">
+                <p class="mt-3 is-size-6 has-text-grey-dark has-text-centered">
+                  ImageNet (256x256, <b>4-step</b> generation with CFG=1.4)
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <br>
+  <br>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h3 class="title is-4">Acknowledgements</h3>
+          <div class="content has-text-justified">
+            <p>
+              We would like to thank
+              <a href="https://scholar.google.com/citations?user=wFduC9EAAAAJ&hl=en">Tan Wang</a>,
+              <a href="https://scholar.google.com/citations?user=XYxv5HIAAAAJ&hl=en">Chenyang Zhang</a>,
+              <a href="https://scholar.google.com/citations?user=wKjXhH8AAAAJ&hl=en">Tian Xie</a>,
+              <a href="https://scholar.google.com/citations?user=yFMX138AAAAJ&hl=en">Wei Liu</a>,
+              <a href="https://scholar.google.com/citations?user=dgN8vtwAAAAJ&hl=en">Felix Juefei Xu</a>,
+              and
+              <a href="https://scholar.google.com/citations?user=NWPDSEsAAAAJ&hl=en">Andrej Risteski</a>
+              for valuable discussion and feedback.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h3 class="title is-4">BibTeX</h3>
+          <pre><code>@article{kai2026sphere,
+  title  = {Image Generation with a Sphere Encoder},
+  author = {Yue, Kaiyu and Jia, Menglin and Hou, Ji and Goldstein, Tom},
+  year   = {2026}
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container has-text-centered">
+      <p class="is-size-7">
+        This website is modified from
+        <a href="https://diffusionfeatures.github.io">Diffusion Features</a>,
+        <a href="https://3d-moments.github.io">3D Moments</a>,
+        <a href="https://infinite-nature-zero.github.io">InfiniteNature-Zero</a>, and
+        <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+      </p>
+    </div>
+  </footer>
+
+</body>
+
+</html>
