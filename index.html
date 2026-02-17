@@ -294,7 +294,7 @@
             </div>
           </div>
 
-          <p class="is-size-7 has-text-centered has-text-grey mb-5">
+          <p class="is-size-7 has-text-grey mb-5">
             <i>
               Swipe to compare different models against the "Posterior Hole" problem. <br>
               Columns show:
@@ -342,16 +342,50 @@
       <div class="columns is-centered has-text-centered mb-5">
         <h2 class="title is-3 margin-bottom-8">Latent Interpolation</h2>
       </div>
+
+
+<div align="center" style="margin-top:0px; margin-bottom:0px;">
+  <div class="carousel-teaser-padding">
+    <div class="hero-body">
+      <div class="container">
+        <div id="results-carousel" class="carousel results-carousel">
+
+          <div class="item item-toby">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+
+              <img style='height: auto; width: 60%; object-fit: contain; max-height: 90%;'
+                   src="static/sphere/interpolate1.png" alt="latent interpolation animal faces">
+
+              <p style="margin-top: 10px; padding-bottom: 30px; font-size: 14px; color: #4a4a4a; text-align: left;">
+                On Animal-Faces, we randomly sample four noise vectors e and visualize their corresponding images <strong>at the corners of the figure</strong>. We interpolate the latent space bilinearly to fill in the other images.
+              </p>
+            </div>
+          </div>
+
+          <div class="item item-toby">
+             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+
+               <img style='height: auto; width: 100%; object-fit: contain; max-height: 90%;'
+                   src="static/sphere/interpolate2.png" alt="latent interpolation flowers">
+
+                <p style="margin-top: 10px; padding-bottom: 30px; font-size: 14px; color: #4a4a4a; text-align: left;">
+                  On Oxford-Flowers, we randomly sample a noise vector e and a class <strong>on each side of each row</strong>. We interpolate both input noise and class embeddings (as the model is class-conditional) linearly as we move horizontally across each row.
+               </p>
+            </div>
+          </div>
+
+        </div>
+  </div>
+</div>
+
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <img src="static/sphere/interpolate.png" alt="latent interpolation"
-            style="max-width: 100%; margin-bottom: 20px;" />
           <div class="content has-text-justified">
             <p> As we move through learned latent space, our model exhibits <strong>fast/sudden transitions</strong>
               between image classes rather than producing ``hybrid'' images that unrealistically merge properties of
               difference object types. For example, starting with the bottom-left image of a cheetah, we observe a
               sudden transition from cheetah to cat as we move vertically, and from cheetah to dog as we move
-              horizontally. The model does not linger in a half-cheetah/half-dog state that is impossible in the
+              horizontally. The model does not linger in a half-cheetah/half-dog state that is absent in the
               training data.
               These fast-transitions are necessary for a model to reliably convert random samples from the sphere into
               realistic images, as it makes the probability of observing a hybrid image small. </p>
