@@ -6,6 +6,12 @@ h3 {
   font-size: 1.5em !important;
 }
 
+body {
+  /* This makes text look much more consistent across Chrome and Safari */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .margin-bottom-8 {
   margin-bottom: 8px;
 }
