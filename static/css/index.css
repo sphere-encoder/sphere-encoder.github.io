@@ -74,7 +74,7 @@ body {
   background: var(--random-grad, var(--text-primary)) !important;
   border: none !important;
   color: white !important;
-  box-shadow: var(--shadow-md);
+  /* box-shadow: var(--shadow-md); */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   /* Smooth animations */
 }
