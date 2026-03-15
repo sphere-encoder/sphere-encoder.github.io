@@ -412,43 +412,44 @@
       </div>
       <div class="columns is-centered mb-6">
         <div class="column is-four-fifths">
-          <img src="static/sphere/cond_manipulation.jpg" alt="conditional manipulation" style="max-width: 100%; margin-bottom: 20px; />
+          <img src="static/sphere/cond_manipulation.jpg" alt="conditional manipulation"
+            style="max-width: 100%; margin-bottom: 20px;" />
           <div class=" content has-text-justified">
-          <p>
-            Given an image far outside of the training distribution, we repeatedly encode and decode an input image,
-            conditioning on different ImageNet classes.
-          </p>
-          <p>
-            We observe that a single step captures the primary object from the input while adapting its texture to
-            match the target class. By increasing the iterations (e.g., 4-step generation), the model further refines
-            the object's texture and key characteristics to align with the target class—all while maintaining the
-            structural integrity of the original image.
-          </p>
+            <p>
+              Given an image far outside of the training distribution, we repeatedly encode and decode an input image,
+              conditioning on different ImageNet classes.
+            </p>
+            <p>
+              We observe that a single step captures the primary object from the input while adapting its texture to
+              match the target class. By increasing the iterations (e.g., 4-step generation), the model further refines
+              the object's texture and key characteristics to align with the target class—all while maintaining the
+              structural integrity of the original image.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="columns is-centered has-text-centered mb-5">
-      <h3 class="title is-4">Transforming Stitched Composites</h3>
-    </div>
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
-        <img src="static/sphere/crossover.png" alt="cross over" style="max-width: 100%; margin-bottom: 20px;" />
-        <div class="content has-text-justified">
-          <p>
-            We further demonstrate the model's editing capabilities by manually stitching together two distinct
-            sources, <strong>Image A</strong> and <strong>Image B</strong>. By repeatedly encoding and decoding this
-            stitched composite, the model naturally smooths the boundaries and harmonizes the content.
-          </p>
-          <p>
-            The process forces the manipulated image to converge to a valid point on the learned spherical manifold.
-            Notably, unlike diffusion models (which require noise injection to hallucinate details), our encoder
-            <strong>directly projects</strong> the stitched image into the latent space without adding noise,
-            preserving the semantic integrity of both original images while creating a seamless transition.
-          </p>
+      <div class="columns is-centered has-text-centered mb-5">
+        <h3 class="title is-4">Transforming Stitched Composites</h3>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <img src="static/sphere/crossover.png" alt="cross over" style="max-width: 100%; margin-bottom: 20px;" />
+          <div class="content has-text-justified">
+            <p>
+              We further demonstrate the model's editing capabilities by manually stitching together two distinct
+              sources, <strong>Image A</strong> and <strong>Image B</strong>. By repeatedly encoding and decoding this
+              stitched composite, the model naturally smooths the boundaries and harmonizes the content.
+            </p>
+            <p>
+              The process forces the manipulated image to converge to a valid point on the learned spherical manifold.
+              Notably, unlike diffusion models (which require noise injection to hallucinate details), our encoder
+              <strong>directly projects</strong> the stitched image into the latent space without adding noise,
+              preserving the semantic integrity of both original images while creating a seamless transition.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   </section>
 
