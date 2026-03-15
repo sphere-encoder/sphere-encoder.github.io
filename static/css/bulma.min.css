@@ -7700,6 +7700,15 @@ label.panel-block:hover {
     width: 25%
 }
 
+@media (max-width: 768px) {
+    .video-container {
+        height: 200px !important;
+        /* Shorter height specifically for mobile */
+        margin-top: 0 !important;
+        /* Usually, negative margins like -50px look bad on mobile */
+    }
+}
+
 .columns.is-mobile>.column.is-one-fifth {
     flex: none;
     width: 20%
