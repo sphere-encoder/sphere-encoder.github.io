@@ -120,7 +120,7 @@
 
           <br>
           <div style="margin-top: -10px; max-width: 100%; margin-left: auto; margin-right: auto;">
-            <p class="is-size-8 has-text-justified">
+            <p class="content has-text-justified">
               <strong>Uniformity on the Sphere.</strong>
               Our Sphere Encoder maps the natural image distribution uniformly onto a global sphere.
               The decoder then generates an image by decoding a point on the sphere.
@@ -229,10 +229,11 @@
         </div>
       </div>
       <div class="columns is-centered">
-        <div class="column is-four-fifths has-text-centered content">
-          <p>
-            Sphere Encoder, trained entirely from scratch, can generate sharp and high-fidelity images in within 4
-            steps.
+        <div class="column is-four-fifths has-text-centered">
+          <br>
+          <p class="content has-text-justified">
+            Sphere Encoder, trained entirely from scratch, can generate sharp and high-fidelity images with fewer
+            than 4 steps.
           </p>
         </div>
       </div>
@@ -287,7 +288,7 @@
               and (4) Samples from estimated Gaussian posterior on the training set of Animal-Faces.
             </p>
 
-            <div class="has-text-justified">
+            <div class="content has-text-justified">
               <p>
                 Variational Autoencoders (VAEs) face a fundamental trade-off: the <strong>divergence loss</strong>
                 (matching a Gaussian prior) and the <strong>reconstruction loss</strong> are often at odds.
@@ -298,7 +299,7 @@
               <div class="columns is-vcentered mt-4">
                 <div class="column">
                   <h4 class="title is-5">Modern VAEs</h4>
-                  <p class="is-size-6">
+                  <p class="content is-size-6">
                     Attempt to force latents into a <strong>Gaussian distribution</strong>. This creates a conflict
                     where
                     the learned posterior fails to match the prior, making direct sampling unreliable.
@@ -306,7 +307,7 @@
                 </div>
                 <div class="column">
                   <h4 class="title is-5">Sphere Encoder</h4>
-                  <p class="is-size-6">
+                  <p class="content is-size-6">
                     Forces latents onto a <strong>uniform spherical manifold</strong>. By spreading embeddings away from
                     each other on a bounded sphere, we achieve uniformity without sacrificing reconstruction accuracy.
                   </p>
@@ -388,7 +389,7 @@
 
   <br>
 
-  <section class="hero section">
+  <section class="section">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
@@ -586,7 +587,7 @@
       <div class="bibtex-header">
         <h2 class="title">Acknowledgements</h2>
       </div>
-      <p>
+      <p class="content has-text-justified">
         We would like to thank
         <a href="https://scholar.google.com/citations?user=wFduC9EAAAAJ&hl=en">Tan Wang</a>,
         <a href="https://scholar.google.com/citations?user=XYxv5HIAAAAJ&hl=en">Chenyang Zhang</a>,
@@ -622,7 +623,7 @@
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-8">
-          <div class="content">
+          <div class="content has-text-centered">
             <p>
               This website is modified from
               <a href="https://diffusionfeatures.github.io">Diffusion Features</a>,
@@ -630,7 +631,6 @@
               <a href="https://infinite-nature-zero.github.io">InfiniteNature-Zero</a>, and
               <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
             </p>
-
           </div>
         </div>
       </div>
