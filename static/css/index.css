@@ -753,6 +753,14 @@ code {
   .content.has-text-justified {
     font-size: 1rem;
   }
+
+  .mobile-full-image {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+  }
 }
 
 @media screen and (max-width: 480px) {
