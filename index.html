@@ -112,24 +112,32 @@
       <div class="columns is-centered has-text-centered">
         <div class="column is-full">
           <div class="video-container framed-video-container sphere-uniform-video-wrap">
-            <video poster="" autoplay playsinline muted loop class="sphere-uniform-video">
+            <video poster="" autoplay playsinline muted loop class="sphere-uniform-video sphere-uniform-video-inset">
               <source type="video/webm" src="static/sphere/randp_ball_spin_all.webm" />
             </video>
           </div>
 
           <br>
-            <p class="content has-text-justified">
-              <strong>Uniformity on the Sphere.</strong>
-              Our Sphere Encoder maps the natural image distribution uniformly onto a global sphere.
-              The decoder then generates an image by decoding a point on the sphere.
-              Shown here for three random classes of CIFAR-10, latents from CIFAR-10 training samples are projected
-              into
-              3D via a random Gaussian matrix and normalized to unit length.
-              The distribution reveals a highly uniform coverage of the sphere within each class, a trend consistent
-              across various datasets, such as ImageNet, Animal-Faces, and
-              Oxford-Flowers.
-              This uniformity is valid for both conditional and unconditional models.
-            </p>
+          <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+              <div class="column is-four-fifths">
+                <div class="content has-text-justified">
+                  <p>
+                  <strong>Uniformity on the Sphere.</strong>
+                  Our Sphere Encoder maps the natural image distribution uniformly onto a global sphere.
+                  The decoder then generates an image by decoding a point on the sphere.
+                  Shown here for three random classes of CIFAR-10, latents from CIFAR-10 training samples are projected
+                  into
+                  3D via a random Gaussian matrix and normalized to unit length.
+                  The distribution reveals a highly uniform coverage of the sphere within each class, a trend consistent
+                  across various datasets, such as ImageNet, Animal-Faces, and
+                  Oxford-Flowers.
+                  This uniformity is valid for both conditional and unconditional models.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

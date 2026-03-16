@@ -366,6 +366,16 @@ body {
   display: block;
 }
 
+.sphere-uniform-video-inset {
+  width: 100%;
+  max-width: 96%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: overflow;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .sphere-uniform-text {
   width: 100%;
   max-width: 100%;
@@ -811,6 +821,13 @@ code {
     max-width: 100%;
   }
 
+  .sphere-uniform-video-inset {
+    width: 96%;
+    max-width: 96%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .sphere-uniform-section {
     overflow-x: clip;
   }
@@ -881,6 +898,10 @@ code {
 
   .publication-header .hero-body {
     padding: 4rem 2rem 3rem;
+  }
+
+  .sphere-uniform-video-inset {
+    width: 90%;
   }
 }
 
