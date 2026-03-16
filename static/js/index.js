@@ -1,4 +1,6 @@
 window.HELP_IMPROVE_VIDEOJS = false;
+const MOBILE_BREAKPOINT = 768;
+let carouselInstances = [];
 
 // More Works Dropdown Functionality
 function toggleMoreWorks() {
@@ -161,22 +163,69 @@ function setupVideoCarouselAutoplay() {
     });
 }
 
-$(document).ready(function () {
-    // Check for click events on the navbar burger icon
+function cleanupCarouselDOMForMobile() {
+    document.querySelectorAll('.results-carousel').forEach(carousel => {
+        carousel.classList.add('plain-carousel');
 
-    var options = {
+        carousel.querySelectorAll('.slider-navigation-previous, .slider-navigation-next, .slider-pagination').forEach(el => {
+            el.remove();
+        });
+
+        carousel.removeAttribute('tabindex');
+        carousel.style.removeProperty('height');
+        carousel.style.removeProperty('overflow');
+
+        carousel.querySelectorAll('.item').forEach(item => {
+            item.style.removeProperty('left');
+            item.style.removeProperty('width');
+            item.style.removeProperty('transform');
+        });
+    });
+}
+
+function initDesktopCarousels() {
+    if (carouselInstances.length > 0) return;
+
+    const options = {
         slidesToScroll: 1,
         slidesToShow: 1,
         loop: true,
         infinite: true,
         autoplay: true,
         autoplaySpeed: 5000,
+    };
+
+    carouselInstances = bulmaCarousel.attach('.carousel', options) || [];
+    document.querySelectorAll('.results-carousel').forEach(carousel => {
+        carousel.classList.remove('plain-carousel');
+    });
+}
+
+function destroyDesktopCarousels() {
+    if (carouselInstances.length > 0) {
+        carouselInstances.forEach(instance => {
+            if (instance && typeof instance.destroy === 'function') {
+                instance.destroy();
+            }
+        });
+        carouselInstances = [];
     }
 
-    // Initialize all div with carousel class
-    var carousels = bulmaCarousel.attach('.carousel', options);
+    cleanupCarouselDOMForMobile();
+}
 
+function applyResponsiveCarouselMode() {
+    if (window.innerWidth <= MOBILE_BREAKPOINT) {
+        destroyDesktopCarousels();
+    } else {
+        initDesktopCarousels();
+    }
+}
+
+$(document).ready(function () {
     bulmaSlider.attach();
+    applyResponsiveCarouselMode();
+    window.addEventListener('resize', applyResponsiveCarouselMode);
 
     // Setup video autoplay for carousel
     setupVideoCarouselAutoplay();
