@@ -70,27 +70,34 @@ body {
 }
 
 .button.is-random-color {
-  /* Uses the JS-injected gradient, falls back to text-primary if JS fails */
-  background: var(--random-grad, var(--text-primary)) !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
   border: none !important;
   color: white !important;
-  /* box-shadow: var(--shadow-md); */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  /* Smooth animations */
+}
+
+.publication-links .link-block:nth-child(1) .button.is-random-color {
+  background: linear-gradient(90deg, #2f80ed 0%, #e98ca8 100%) !important;
+}
+
+.publication-links .link-block:nth-child(2) .button.is-random-color {
+  background: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%) !important;
+}
+
+.publication-links .link-block:nth-child(3) .button.is-random-color {
+  background: linear-gradient(135deg, #3b82f6 0%, #4fd1c5 50%, #6ee7b7 100%) !important;
 }
 
 .button.is-random-color:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
-  filter: brightness(1.15);
-  /* Brightens the random gradient */
+  filter: brightness(1.08);
 }
 
 .button.is-random-color:active {
   transform: translateY(0);
   box-shadow: var(--shadow-md);
-  filter: brightness(0.9);
-  /* Slightly darkens when clicked */
+  filter: brightness(0.96);
 }
 
 .footer .icon-link {

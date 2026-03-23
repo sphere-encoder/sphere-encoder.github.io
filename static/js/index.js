@@ -15,49 +15,6 @@ function toggleMoreWorks() {
         button.classList.add('active');
     }
 }
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. Define 12 aesthetic, modern hex colors
-    const aestheticColors = [
-        "#FF9A9E", // Soft Rose
-        "#A18CD1", // Muted Purple
-        "#8FD3F4", // Baby Blue
-        "#84FAB0", // Mint Green
-        "#FCCB90", // Peach
-        "#FF7E5F", // Coral
-        "#6A11CB", // Deep Purple
-        "#2575FC", // Bright Blue
-        "#00C9FF", // Cyan
-        "#FA709A", // Vibrant Pink
-        "#F6D365", // Warm Yellow
-        "#FDA085"  // Warm Orange
-    ];
-
-    const randomButtons = document.querySelectorAll('.button.is-random-color');
-
-    randomButtons.forEach(button => {
-        // 2. Pick a random color for the first stop
-        let index1 = Math.floor(Math.random() * aestheticColors.length);
-
-        // 3. Pick a second random color, ensuring it's not the same as the first
-        let index2 = Math.floor(Math.random() * aestheticColors.length);
-        while (index1 === index2) {
-            index2 = Math.floor(Math.random() * aestheticColors.length);
-        }
-
-        const color1 = aestheticColors[index1];
-        const color2 = aestheticColors[index2];
-
-        // 4. Generate a random angle for the gradient direction
-        const angle = Math.floor(Math.random() * 360);
-
-        // 5. Combine them into the CSS gradient string
-        const randomGradient = `linear-gradient(${angle}deg, ${color1}, ${color2})`;
-
-        // 6. Inject the gradient into the button's CSS variable
-        button.style.setProperty('--random-grad', randomGradient);
-    });
-});
-
 // Close dropdown when clicking outside
 document.addEventListener('click', function (event) {
     const container = document.querySelector('.more-works-container');
